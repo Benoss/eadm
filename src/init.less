@@ -1,0 +1,27 @@
+@import '../node_modules/bootstrap/less/bootstrap.less';
+@import '../node_modules/bootstrap/less/theme.less';
+// You can override any Bootstrap variables within this file
+@import './less/variables.less';
+// Any additional mixins can go in here
+@import './less/mixins.less';
+@import  (css) '../node_modules/codemirror/lib/codemirror.css';
+@import  (css) '../node_modules/codemirror/addon/hint/show-hint.css';
+
+@import  (css) '../node_modules/react-json-inspector/json-inspector.css';
+@import './routes/App.less';
+@import './components/Header.less';
+@import './routes/Query.less';
+
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}
+
+html, body {
+  height: 100%;
+}
+
+//.fluid {
+//  min-height: 100%;
+//  height: 100%;
+//}

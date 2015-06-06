@@ -1,0 +1,22 @@
+{
+  "name": "webpack-es6-react-boilerplate",
+  "version": "0.1.0",
+  "homepage": "",
+  "authors": [
+
+  ],
+  "description": "a sample app in es6 making use of webpack, react, bower, gulp",
+  "keywords": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "name": "eadm",
+  "version": "1.0.0",
+  "description": "eadm Elastic Admin",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rimraf -rf build",
+    "build:development": "webpack --config ./config/webpack.development.js",
+    "build:production": "webpack --config ./config/webpack.production.js",
+    "build": "npm run build:development",
+    "start": "webpack-dev-server  --devtool eval --progress --colors --hot  --config ./config/webpack.hot.js"
+  },
+  "keywords": [
+    "webpack",
+    "react",
+    "reactjs",
+    "flux",
+    "react-router",
+    "babel",
+    "bootstrap",
+    "es6",
+    "elasticsearch",
+    "elastic"
+  ],
+  "author": {
+    "name": "Benoit Chabord"
+  },
+  "contributors": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:benoss/eadm.git"
+  },
+  "homepage": "https://github.com/benoss/eadm",
+  "bugs": "https://github.com/benoss/eadm/issues",
+  "dependencies": {
+    "alt": "^0.16.9",
+    "bootstrap": "^3.3.4",
+    "codemirror": "^5.3.0",
+    "elasticsearch": "^4.1.0",
+    "flat": "^1.6.0",
+    "js-yaml": "^3.3.1",
+    "lodash": "^3.9.3",
+    "react": "^0.13.3",
+    "react-bootstrap": "^0.23.1",
+    "react-codemirror": "^0.1.2",
+    "react-json-inspector": "^5.0.2",
+    "react-router": "^0.13.3",
+    "react-router-bootstrap": "^0.15.0",
+    "react-vendor-prefix": "0.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^5.5.4",
+    "babel-loader": "^5.1.4",
+    "babel-runtime": "^5.5.4",
+    "classnames": "^2.1.2",
+    "css-loader": "^0.14.4",
+    "eslint": "^0.22.1",
+    "extract-text-webpack-plugin": "^0.8.1",
+    "file-loader": "^0.8.4",
+    "jshint": "^2.8.0",
+    "jsxhint": "^0.15.1",
+    "jsxhint-loader": "^0.2.0",
+    "less": "^2.5.1",
+    "less-loader": "^2.2.0",
+    "react-hot-loader": "^1.2.7",
+    "rimraf": "^2.3.4",
+    "script-loader": "^0.6.1",
+    "style-loader": "^0.12.3",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.9.10",
+    "webpack-dev-server": "^1.9.0",
+    "whatwg-fetch": "^0.9.0"
+  }
+}
