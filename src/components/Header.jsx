@@ -3,6 +3,7 @@ import boot from 'react-bootstrap'
 import nav from 'react-router-bootstrap'
 import elasticClientActions from '../actions/ElasticClientActions'
 import elasticClientStore from '../stores/ElasticClientStore'
+import ElasticClients from '../utils/EsClients'
 
 export default React.createClass({
   displayName: 'Header',
@@ -32,6 +33,24 @@ export default React.createClass({
     return
   },
   render() {
+    let dropDownClass = ''
+    let active_client = this.state.client_list[this.state.active_client]
+    if (active_client) {
+      switch (active_client.color) {
+        case 'danger':
+          dropDownClass = 'redBackground'
+          break;
+        case 'warning':
+          dropDownClass = 'yellowBackground'
+          break;
+        case 'success':
+          dropDownClass = 'greenBackground'
+          break;
+        case 'info':
+          dropDownClass = 'bluedBackground'
+          break;
+      }
+    }
     return (
       <boot.Navbar staticTop brand='EADM' className="header">
         <boot.Nav>
@@ -39,7 +58,7 @@ export default React.createClass({
           <nav.NavItemLink eventKey={2} to="query">Query</nav.NavItemLink>
         </boot.Nav>
         <boot.Nav right>
-          <boot.DropdownButton eventKey={3} title={this.state.active_client || 'Config Cluster'}>
+          <boot.DropdownButton className={dropDownClass} eventKey={3} title={this.state.active_client || 'Config Cluster'}>
           {Object.keys(this.state.client_list).map(function (key) {
             var item = this.state.client_list[key]
             return (
@@ -49,6 +68,7 @@ export default React.createClass({
             <boot.MenuItem divider/>
             <nav.MenuItemLink to="config"> Cluster Config</nav.MenuItemLink>
           </boot.DropdownButton>
+
         </boot.Nav>
       </boot.Navbar>
     )

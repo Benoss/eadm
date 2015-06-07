@@ -6,19 +6,19 @@ module.exports = {
   target: 'web',
   debug: false,
   devServer: {
-    contentBase: './src'
+    contentBase: './'
   },
   entry: {
     app: [
       './src/init.less',
-      './src/index.html',
+      './index.html',
       './src/favicon.ico',
       './src/init'
     ]
   },
   output: {
     path: path.join(__dirname, '..', 'build'),
-    publicPath: '/',
+    publicPath: '/build/',
     filename: '[name].js'
   },
   jshint: {
@@ -36,16 +36,16 @@ module.exports = {
       { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader","css-loader")},
       //{ test: /\.less$/, loader: "style!css!less"},
       { test: /\.less$/, loader: ExtractTextPlugin.extract("style-loader", "css!less")},
-      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.png(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.jpg(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.gif(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
-      { test: /\.ico(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[path][name].[ext]&context=src" },
-      { test: /\.html(\?v=\d+\.\d+\.\d+)?$/, exclude: /node_modules/, loader: "file?name=[path][name].[ext]&context=src" }
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[name].[ext]&context=." },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[name].[ext]&context=." },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[name].[ext]&context=." },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[name].[ext]&context=." },
+      { test: /\.png(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[name].[ext]&context=." },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[name].[ext]&context=." },
+      { test: /\.jpg(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[name].[ext]&context=." },
+      { test: /\.gif(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[name].[ext]&context=." },
+      { test: /\.ico(\?v=\d+\.\d+\.\d+)?$/, loader: "file?name=[name].[ext]&context=." },
+      { test: /\.html(\?v=\d+\.\d+\.\d+)?$/, exclude: /node_modules/, loader: "file?name=[name].[ext]&context=." }
     ]
   },
   plugins: [

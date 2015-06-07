@@ -42,10 +42,30 @@ export default React.createClass({
   },
   addHost() {
     elasticClientActions.addClient([
-      this.refs.name.getValue(),
-      this.refs.url.getValue(),
-      this.refs.port.getValue(),
-      this.refs.protocol.getValue()
+      (() => {
+        if (!this.refs.name.getValue())
+        {return (Math.random() + 1).toString(36).substring(7)}
+        else
+        {return this.refs.name.getValue()}
+      })(),
+      (() => {
+        if (!this.refs.url.getValue())
+        {return '127.0.0.1'}
+        else
+        {return this.refs.url.getValue()}
+      })(),
+      (() => {
+        if (!this.refs.port.getValue())
+        {return '9200'}
+        else
+        {return this.refs.port.getValue()}
+      })(),
+      (() => {
+        if (!this.refs.protocol.getValue())
+        {return 'http://'}
+        else
+        {return this.refs.protocol.getValue()}
+      })()
     ])
   },
   removeHost(item){
