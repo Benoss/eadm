@@ -3,6 +3,16 @@ Elastic Admin (EADM) Elasticsearch Admin UI
 
 This is work in progress
 
+Install as an ES plugin:
+{ES_HOME} bin/plugin --install benoss/eadm
+
+Online version [http://benoss.github.io/eadm/]
+If using elasticsearch 1.4+ You need to add in your config elasticsearch.yml
+```
+http.cors.allow-origin: "*" #or "benoss.github.io"
+http.cors.enabled: true
+```
+
 For dev: just clone, npm install, npm start
 For build. npm run build:production and you should have a production ready folder in build/
 
