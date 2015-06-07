@@ -39,7 +39,7 @@ export default React.createClass({
           <nav.NavItemLink eventKey={2} to="query">Query</nav.NavItemLink>
         </boot.Nav>
         <boot.Nav right>
-          <boot.DropdownButton eventKey={3} title={this.state.active_client}>
+          <boot.DropdownButton eventKey={3} title={this.state.active_client || 'Config Cluster'}>
           {Object.keys(this.state.client_list).map(function (key) {
             var item = this.state.client_list[key]
             return (

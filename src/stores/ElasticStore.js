@@ -11,20 +11,28 @@ class ElasticStore {
     this.bindAction(elasticActions.codeChanged, this.onCodeChanged)
     this.bindAction(elasticClientActions.setActiveClient, this.onActiveClient)
     this.bindAction(elasticClientActions.refreshClients, this.onRefreshClients)
+    this.bindAction(elasticActions.reformatCode, this.onReformatCode)
 
     /** @type {elasticsearch.Client} */
     this.esClient = null
-    this.code = "{\n" +
-      "\"query\":{\n" +
-      " \"mmatch_all\" : { }}\n" +
-      "}\n"
-
+    this.code = JSON.stringify({'query': {'match_all': {}}}, null, ' ')
     this.last_response = {}
     this.last_error = null
   }
 
   _es() {
     return ElasticClients.getClient(this.esClient)
+  }
+
+  onReformatCode() {
+    let code = ""
+    try {
+      code = JSON.parse(this.code)
+      this.setState({'code': JSON.stringify(code, null, ' ')})
+      this.setState({'last_error': null})
+    } catch (e) {
+      this.setState({'last_error': "Json parse error:\n " + e})
+    }
   }
 
   onRefreshClients() {
@@ -70,12 +78,9 @@ class ElasticStore {
           this.setState({'last_response': body})
           this.setState({'last_error': null})
         }
-
       }, (error) => {
         this.setState({'last_error': JSON.stringify(error, null, ' ')})
       })
-
-
     }
   }
 }

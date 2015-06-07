@@ -11,7 +11,9 @@ class ElasticActions {
   codeChanged(args) {
     this.dispatch(args)
   }
-
+  reformatCode(args) {
+    this.dispatch(args)
+  }
 
 }
 
