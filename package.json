@@ -1,6 +1,6 @@
 {
   "name": "eadm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "eadm Elastic Admin",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

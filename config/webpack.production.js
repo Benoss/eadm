@@ -18,7 +18,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '..', 'build'),
-    publicPath: '/build/',
+    publicPath: './',
     filename: '[name].js'
   },
   jshint: {
