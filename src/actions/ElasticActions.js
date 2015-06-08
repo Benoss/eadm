@@ -11,7 +11,24 @@ class ElasticActions {
   codeChanged(args) {
     this.dispatch(args)
   }
+
   reformatCode(args) {
+    this.dispatch(args)
+  }
+
+  refreshIndexes(args) {
+    this.dispatch(args)
+  }
+
+  setIndex(args) {
+    this.dispatch(args)
+  }
+
+  setType(args) {
+    this.dispatch(args)
+  }
+
+  refreshTypes(args) {
     this.dispatch(args)
   }
 

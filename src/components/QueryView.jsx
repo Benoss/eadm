@@ -19,12 +19,24 @@ export default React.createClass({
     elasticStore.listen(this.onChange)
     this.debouncedSend = _.debounce(this.debouncedSend, 200);
     this.debouncedSend()
+
+
   },
   componentWillUnmount() {
     elasticStore.unlisten(this.onChange)
   },
   onChange() {
     this.setState(this.getInitialState())
+  },
+
+  setType() {
+    elasticActions.setType(this.refs.type.getValue())
+    this.debouncedSend()
+  },
+
+  setIndex() {
+    elasticActions.setIndex(this.refs.index.getValue())
+    this.debouncedSend()
   },
 
   debouncedSend() {
@@ -51,7 +63,21 @@ export default React.createClass({
 
     return (
       <div>
-        <boot.Button onClick={this.reformat}>Reformat</boot.Button>
+        <div>
+        <boot.Col xs={5}>
+          <boot.Input ref="index" type="text" placeholder='Index'
+                      onChange={this.setIndex}
+                      value={this.state.current_index} />
+        </boot.Col>
+        <boot.Col xs={5}>
+          <boot.Input ref="type" type="text" placeholder='Type'
+                      onChange={this.setType}
+                      value={this.state.current_type} />
+        </boot.Col>
+        <boot.Col xs={2}>
+          <boot.Button onClick={this.reformat}>Reformat</boot.Button>
+        </boot.Col>
+        </div>
         <AceEditor
           mode="json"
           theme="github"

@@ -10,7 +10,8 @@ webpackConfig.output.chunkFilename= '[chunkhash].js';
 webpackConfig.output.sourceMapFilename= 'debugging/[file].map';
 webpackConfig.output.hotUpdateChunkFilename= 'hot/[id].[hash].hot-update.js';
 webpackConfig.output.hotUpdateMainFilename= 'hot/[hash].hot-update.json';
-
+webpackConfig.output.publicPath = '/'
+webpackConfig.devServer.contentBase = './src/'
 
 webpackConfig.plugins = [
   new webpack.DefinePlugin({
