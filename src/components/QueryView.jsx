@@ -5,6 +5,7 @@ import elasticStore from '../stores/ElasticStore'
 import _ from 'lodash'
 import YAML from 'js-yaml'
 import AceEditor  from 'react-ace-wrapper'
+import Select from 'react-select'
 
 require('brace/mode/json');
 require('brace/theme/github');
@@ -19,8 +20,6 @@ export default React.createClass({
     elasticStore.listen(this.onChange)
     this.debouncedSend = _.debounce(this.debouncedSend, 200);
     this.debouncedSend()
-
-
   },
   componentWillUnmount() {
     elasticStore.unlisten(this.onChange)
@@ -34,8 +33,8 @@ export default React.createClass({
     this.debouncedSend()
   },
 
-  setIndex() {
-    elasticActions.setIndex(this.refs.index.getValue())
+  setIndex(newValue) {
+    elasticActions.setIndex(newValue)
     this.debouncedSend()
   },
 
@@ -55,28 +54,29 @@ export default React.createClass({
   sendQuery: function () {
     elasticActions.doQuery(this.state.code)
   },
-  reformat: function() {
+  reformat: function () {
     elasticActions.reformatCode()
   },
-
   render() {
-
     return (
       <div>
         <div>
-        <boot.Col xs={5}>
-          <boot.Input ref="index" type="text" placeholder='Index'
-                      onChange={this.setIndex}
-                      value={this.state.current_index} />
-        </boot.Col>
-        <boot.Col xs={5}>
-          <boot.Input ref="type" type="text" placeholder='Type'
-                      onChange={this.setType}
-                      value={this.state.current_type} />
-        </boot.Col>
-        <boot.Col xs={2}>
-          <boot.Button onClick={this.reformat}>Reformat</boot.Button>
-        </boot.Col>
+          <boot.Col xs={5}>
+            <Select
+              name="form-field-name"
+              value={this.state.current_index}
+              options={this.state.indexesDropdown}
+              onChange={this.setIndex}
+              />
+          </boot.Col>
+          <boot.Col xs={5}>
+            <boot.Input ref="type" type="text" placeholder='Type'
+                        onChange={this.setType}
+                        value={this.state.current_type}/>
+          </boot.Col>
+          <boot.Col xs={2}>
+            <boot.Button onClick={this.reformat}>Reformat</boot.Button>
+          </boot.Col>
         </div>
         <AceEditor
           mode="json"
@@ -84,7 +84,7 @@ export default React.createClass({
           onChange={this.updateCode}
           name="UNIQUE_ID_OF_DIV"
           value={this.state.code}
-        />
+          />
       </div>
     )
   }

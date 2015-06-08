@@ -4,6 +4,8 @@ import elasticClientActions from '../actions/ElasticClientActions'
 import elasticClientStore from '../stores/ElasticClientStore'
 import ElasticClients from '../utils/EsClients'
 import elasticsearch from "elasticsearch"
+import ElasticActions from '../actions/ElasticActions'
+
 
 class ElasticStore {
   constructor() {
@@ -22,11 +24,12 @@ class ElasticStore {
     this.code = JSON.stringify({'query': {'match_all': {}}}, null, ' ')
     this.last_response = {}
     this.last_error = null
-    this.current_index = 'go.frontend.nz'
-    this.current_type = 'product'
+    this.current_index = ''
+    this.current_type = ''
     this.indexes = []
     this.aliases = []
     this.types = []
+    this.indexesDropdown = []
   }
 
   _es() {
@@ -61,12 +64,12 @@ class ElasticStore {
   }
 
   _populateIndexAndType(params) {
-      if (this.current_index){
-        params['index'] = this.current_index
-      }
-      if (this.current_type) {
-        params['type'] = this.current_type
-      }
+    if (this.current_index) {
+      params['index'] = this.current_index
+    }
+    if (this.current_type) {
+      params['type'] = this.current_type
+    }
     return params
   }
 
@@ -109,19 +112,40 @@ class ElasticStore {
     if (!this._es()) {
       return false
     }
+    let indexes = []
+    let aliases = []
+    let indexesDropdown = []
     this._es().indices.getAliases().then((body) => {
-
+      _.forEach(body, (value, key) => {
+        indexes.push(key)
+        for (let alias in value.aliases) {
+          aliases.push(alias)
+        }
+      })
+      aliases.sort()
+      aliases = _.uniq(aliases, true)
+      _.forEach(aliases, (alias) => {
+        indexesDropdown.push({value: alias, label: alias + " - Alias"})
+      })
+      indexes.sort()
+      indexes = _.uniq(indexes, true)
+      _.forEach(indexes, (index) => {
+        indexesDropdown.push({value: index, label: index + " - Index"})
+      })
+      this.setState({'indexes': indexes})
+      this.setState({'aliases': aliases})
+      this.setState({'indexesDropdown': indexesDropdown})
+      this.emitChange()
     })
   }
 
-    onSetIndex(name) {
-      this.setState({'current_index': name})
+  onSetIndex(name) {
+    this.setState({'current_index': name})
   }
 
-    onRefreshTypes() {
+  onRefreshTypes() {
 
   }
-
 
   onSetType(name) {
     this.setState({'current_type': name})

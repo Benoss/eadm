@@ -4,6 +4,7 @@ import elasticsearch from "elasticsearch"
 import objectEntries from '../utils/ObjectEntries'
 import ElasticClients from '../utils/EsClients'
 
+
 class ElasticClientStore {
   constructor() {
     this.bindAction(elasticClientActions.addClient, this.onAddClient)
@@ -16,12 +17,6 @@ class ElasticClientStore {
 
     this.client_list = {}
     this.active_client = null
-
-    //this.on('error', (err, actionName, payloadData, currentState) => {
-    //
-    //  console.log(err, payloadData);
-    //
-    //});
 
     this.on('init', () => {
 
@@ -51,7 +46,6 @@ class ElasticClientStore {
       "color": "info",
       "online": false,
       "connection_error": null
-
     }
   }
 
@@ -75,7 +69,7 @@ class ElasticClientStore {
       this._getInfo(client_def)
       this._getHealth(client_def)
       this._setClientDefState(client_def)
-      }
+    }
     else {
       client_def.color = "danger"
     }
@@ -123,29 +117,29 @@ class ElasticClientStore {
 
   }
 
-  _addInitialClient(client_def, a){
+  _addInitialClient(client_def, a) {
     ElasticClients.addClient([client_def.name, client_def.url, client_def.port, client_def.protocol]).then((ok) => {
-              this._refreshClient(this.client_list[client_def.name])
-              if (client_def.name == a) {
-                elasticClientActions.setActiveClient.defer(a)
-              }
-            }, (error) => {
-              if (client_def.name == a) {
-                elasticClientActions.setActiveClient.defer(a)
-              }
+        this._refreshClient(this.client_list[client_def.name])
+        if (client_def.name == a) {
+          elasticClientActions.setActiveClient.defer(a)
+        }
+      }, (error) => {
+        if (client_def.name == a) {
+          elasticClientActions.setActiveClient.defer(a)
+        }
 
-            }
-          )
       }
+    )
+  }
 
-  onOnlineStatusChanged([name, online, error]){
-      if (this.client_list[name] !== undefined){
+  onOnlineStatusChanged([name, online, error]) {
+    if (this.client_list[name] !== undefined) {
       this.client_list[name].online = online
       this.client_list[name].connection_error = error
       this.client_list[name].color = "danger"
       this.client_list[name].health.cluster_name = error
       this._refreshClient(this.client_list[name])
-      }
+    }
   }
 
   onAddClient(args) {

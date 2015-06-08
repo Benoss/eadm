@@ -8,13 +8,13 @@ class ElasticClientActions {
     this.generateActions('loadListFromJson') // Default will read from local storage
   }
 
-  setActiveClient(name){
+  setActiveClient(name) {
     this.dispatch(name)
     ElasticActions.doQuery()
+    ElasticActions.refreshIndexes()
   }
 
-
-  removeClient(name){
+  removeClient(name) {
     this.dispatch(name)
   }
 
@@ -23,7 +23,7 @@ class ElasticClientActions {
   }
 
   refreshClients() {
-    ElasticClients.checkConnections().then( (ok) => {
+    ElasticClients.checkConnections().then((ok) => {
         this.dispatch()
       }, (error) => {
         this.dispatch(error)
@@ -32,10 +32,10 @@ class ElasticClientActions {
   }
 
   addClient(args) {
-    ElasticClients.addClient(args).then( (ok) => {
-        this.dispatch({'args':args, 'error':false})
+    ElasticClients.addClient(args).then((ok) => {
+        this.dispatch({'args': args, 'error': false})
       }, (error) => {
-        this.dispatch({'args':args, 'error':error})
+        this.dispatch({'args': args, 'error': error})
       }
     )
   }
