@@ -5,7 +5,7 @@ import elasticClientStore from '../stores/ElasticClientStore'
 import ElasticClients from '../utils/EsClients'
 import elasticsearch from "elasticsearch"
 import ElasticActions from '../actions/ElasticActions'
-
+import YAML from 'js-yaml'
 
 class ElasticStore {
   constructor() {
@@ -18,10 +18,15 @@ class ElasticStore {
     this.bindAction(elasticActions.setType, this.onSetType)
     this.bindAction(elasticActions.setIndex, this.onSetIndex)
     this.bindAction(elasticActions.refreshTypes, this.onRefreshTypes)
+    this.bindAction(elasticActions.codeChangedYaml, this.onCodeChangedYaml)
+    this.bindAction(elasticActions.jsonTabSelected, this.onJsonTabSelected)
+    this.bindAction(elasticActions.yamlTabSelected, this.onYamlTabSelected)
 
     /** @type {elasticsearch.Client} */
     this.esClient = null
-    this.code = JSON.stringify({'query': {'match_all': {}}}, null, ' ')
+    this.code = '' //JSON.stringify({'query': {'match_all': {}}}, null, ' ')
+    this.codeYaml = "query:\n    match_all: {}"
+
     this.last_response = {}
     this.last_error = null
     this.current_index = ''
@@ -61,6 +66,25 @@ class ElasticStore {
 
   onCodeChanged(newCode) {
     this.setState({'code': newCode})
+    this.setState({'codeYaml': null})
+  }
+
+  onJsonTabSelected(){
+    if (!this.code && this.codeYaml) {
+      this.setState({'code': JSON.stringify(YAML.safeLoad(this.codeYaml), null, ' ')})
+    }
+  }
+
+    onYamlTabSelected(){
+    if (!this.codeYaml && this.code) {
+      this.setState({'codeYaml': YAML.safeDump(JSON.parse(this.code))})
+    }
+  }
+
+
+  onCodeChangedYaml(newCode) {
+    this.setState({'codeYaml': newCode})
+    this.setState({'code': null})
   }
 
   _populateIndexAndType(params) {
@@ -78,14 +102,30 @@ class ElasticStore {
       return false
     }
     let code = ""
-    try {
-      code = JSON.parse(this.code)
-      this.setState({'last_error': null})
-    } catch (e) {
-      this.setState({'last_error': "Json parse error:\n " + e})
+      if (this.code) {
+        try {
+          code = JSON.parse(this.code)
+          this.setState({'last_error': null})
+          code = this.code
+        } catch (e) {
+          this.setState({'last_error': "Json parse error:\n " + e})
+        }
     }
+    else if (this.codeYaml){
+       try {
+          code = JSON.stringify(YAML.safeLoad(this.codeYaml))
+          this.setState({'last_error': null})
+        } catch (e) {
+          this.setState({'last_error': "Yaml parse error:\n " + e})
+        }
+      }
+    else {
+        this.setState({'last_error': 'Empty Query'})
+        this.setState({'codeYaml': ''})
+        this.setState({'code': ''})
+      }
     if (this.last_error === null) {
-      let validate_params = {'source': this.code, 'explain': true}
+      let validate_params = {'source': code, 'explain': true}
       validate_params = this._populateIndexAndType(validate_params)
       this._es().indices.validateQuery(validate_params).then((body) => {
         if (body.valid) {

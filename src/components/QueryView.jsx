@@ -8,6 +8,7 @@ import AceEditor  from 'react-ace-wrapper'
 import Select from 'react-select'
 
 require('brace/mode/json');
+require('brace/mode/yaml');
 require('brace/theme/github');
 
 export default React.createClass({
@@ -47,15 +48,24 @@ export default React.createClass({
     this.debouncedSend()
   },
   updateCodeYaml: function (newCode) {
-    //elasticActions.codeChanged(YAML.safeLoad(newCode))
-    //this.debouncedSend()
+    elasticActions.codeChangedYaml(newCode)
+    this.debouncedSend()
   },
 
   sendQuery: function () {
-    elasticActions.doQuery(this.state.code)
+    elasticActions.doQuery()
   },
   reformat: function () {
     elasticActions.reformatCode()
+  },
+  handleSelect(key) {
+    this.setState({key})
+    if (key == 1) {
+      elasticActions.yamlTabSelected()
+    }
+    else if (key == 2) {
+      elasticActions.jsonTabSelected()
+    }
   },
   render() {
     return (
@@ -78,13 +88,33 @@ export default React.createClass({
             <boot.Button onClick={this.reformat}>Reformat</boot.Button>
           </boot.Col>
         </div>
-        <AceEditor
-          mode="json"
-          theme="github"
-          onChange={this.updateCode}
-          name="UNIQUE_ID_OF_DIV"
-          value={this.state.code}
-          />
+        <boot.Col xs={12}>
+          <boot.TabbedArea defaultActiveKey={1}
+                           animation={false}
+                           onSelect={this.handleSelect}
+                           activeKey={this.state.key}>
+
+            <boot.TabPane eventKey={1} tab='Yaml'>
+              <AceEditor
+                mode="YAML"
+                theme="github"
+                onChange={this.updateCodeYaml}
+                name="YAML_DIV"
+                value={this.state.codeYaml}
+
+                />
+            </boot.TabPane>
+            <boot.TabPane eventKey={2} tab='Json'>
+              <AceEditor
+                mode="json"
+                theme="github"
+                onChange={this.updateCode}
+                name="JSON_DIV"
+                value={this.state.code}
+                />
+            </boot.TabPane>
+          </boot.TabbedArea>
+        </boot.Col>
       </div>
     )
   }

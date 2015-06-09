@@ -8,7 +8,7 @@ export default React.createClass({
         return (
             <div>
             <h1>
-                Hello
+                Elastic Admin UI
             </h1>
 
             </div>

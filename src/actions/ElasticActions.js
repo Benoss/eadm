@@ -32,6 +32,17 @@ class ElasticActions {
     this.dispatch(args)
   }
 
+  codeChangedYaml(args) {
+    this.dispatch(args)
+  }
+
+  jsonTabSelected(args) {
+    this.dispatch(args)
+  }
+  yamlTabSelected(args) {
+    this.dispatch(args)
+  }
+
 }
 
 export default alt.createActions(ElasticActions)
