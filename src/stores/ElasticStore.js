@@ -102,9 +102,10 @@ class ElasticStore {
       return false
     }
     let code = ""
+    let codeObject = {}
       if (this.code) {
         try {
-          code = JSON.parse(this.code)
+          codeObject = JSON.parse(this.code)
           this.setState({'last_error': null})
           code = this.code
         } catch (e) {
@@ -113,7 +114,8 @@ class ElasticStore {
     }
     else if (this.codeYaml){
        try {
-          code = JSON.stringify(YAML.safeLoad(this.codeYaml))
+          codeObject = YAML.safeLoad(this.codeYaml)
+          code = JSON.stringify(codeObject)
           this.setState({'last_error': null})
         } catch (e) {
           this.setState({'last_error': "Yaml parse error:\n " + e})
@@ -125,7 +127,8 @@ class ElasticStore {
         this.setState({'code': ''})
       }
     if (this.last_error === null) {
-      let validate_params = {'source': code, 'explain': true}
+      let query = codeObject.query
+      let validate_params = {'source': JSON.stringify({'query':query}), 'explain': true}
       validate_params = this._populateIndexAndType(validate_params)
       this._es().indices.validateQuery(validate_params).then((body) => {
         if (body.valid) {

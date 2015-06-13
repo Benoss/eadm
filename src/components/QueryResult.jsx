@@ -2,6 +2,7 @@ import React from 'react'
 import boot from 'react-bootstrap'
 import JsonView from "../components/JsonView"
 import TableView from "../components/TableView"
+import TableAggView from "../components/TableAggView"
 import YAML from 'js-yaml'
 
 
@@ -34,8 +35,11 @@ export default React.createClass({
             <boot.TabPane eventKey={3} tab='YAML'>
               <pre>{YAML.safeDump(this.props.result)}</pre>
             </boot.TabPane>
-            <boot.TabPane eventKey={4} tab='Table'>
+            <boot.TabPane eventKey={4} tab='Result Table'>
               <TableView data={this.props.result} />
+            </boot.TabPane>
+            <boot.TabPane eventKey={5} tab='Agg Table'>
+              <TableAggView data={this.props.result} />
             </boot.TabPane>
           </boot.TabbedArea>
         </div>
