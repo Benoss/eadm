@@ -86,6 +86,7 @@ export default React.createClass({
   render() {
     return (
       <div>
+        <boot.Col xs={12}>
         <form>
           <boot.Col xs={3}>
             <boot.Input ref="name" type='text' addonBefore='Name' placeholder='Enter unique name'
@@ -105,6 +106,8 @@ export default React.createClass({
             <boot.ButtonInput bsStyle='primary' onClick={this.addHost}>Add Client</boot.ButtonInput>
           </boot.Col>
         </form>
+        </boot.Col>
+        <boot.Col xs={12}>
         <boot.Table striped bordered condensed hover>
           <thead>
             <tr>
@@ -137,6 +140,7 @@ export default React.createClass({
           }, this)}
           </tbody>
         </boot.Table>
+          </boot.Col>
         Active: {this.state.active_client}
       </div>
     )
