@@ -94,8 +94,7 @@ let SplitPane = React.createClass({
             flex: 1,
             position: 'relative',
             outline: 'none',
-            overflow: 'hidden',
-            userSelect: 'none'
+            overflow: 'hidden'
         };
 
         if (orientation === 'vertical') {

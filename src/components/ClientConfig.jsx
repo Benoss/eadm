@@ -82,7 +82,9 @@ export default React.createClass({
   setActive(item){
     elasticClientActions.setActiveClient(item.name)
   },
-
+  refresh() {
+    elasticClientActions.refreshClients()
+  },
   render() {
     return (
       <div>
@@ -141,7 +143,10 @@ export default React.createClass({
           </tbody>
         </boot.Table>
           </boot.Col>
+      <boot.ButtonInput bsStyle='info' onClick={this.refresh}>Refresh Connections</boot.ButtonInput>
+         <boot.Col xs={6}>
         Active: {this.state.active_client}
+           </boot.Col>
       </div>
     )
   }

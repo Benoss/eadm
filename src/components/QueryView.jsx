@@ -77,6 +77,7 @@ export default React.createClass({
               value={this.state.current_index}
               options={this.state.indexesDropdown}
               onChange={this.setIndex}
+              noResultsText='Index'
               />
           </boot.Col>
           <boot.Col xs={5}>
@@ -96,7 +97,7 @@ export default React.createClass({
 
             <boot.TabPane eventKey={1} tab='Yaml'>
               <AceEditor
-                mode="YAML"
+                mode="yaml"
                 theme="github"
                 onChange={this.updateCodeYaml}
                 name="YAML_DIV"

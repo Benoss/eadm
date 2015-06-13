@@ -34,7 +34,10 @@ export default React.createClass({
       <div className="splitPaneContainer">
           <SplitPane orientation="horizontal">
             <QueryView  />
-            <QueryResult result={this.state.last_response} error={this.state.last_error}/>
+            <QueryResult result={this.state.last_response}
+                         error={this.state.last_error}
+                         activeTab={this.props.params.resultTab}
+              />
           </SplitPane>
       </div>
 

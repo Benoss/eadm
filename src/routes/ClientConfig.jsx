@@ -1,5 +1,5 @@
 import React from 'react'
-import ClientConfigComponent from "../components/client_config.jsx"
+import ClientConfigComponent from "../components/ClientConfig.jsx"
 
 export default React.createClass({
   displayName: 'ClientConfig',

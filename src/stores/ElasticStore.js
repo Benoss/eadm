@@ -69,13 +69,13 @@ class ElasticStore {
     this.setState({'codeYaml': null})
   }
 
-  onJsonTabSelected(){
+  onJsonTabSelected() {
     if (!this.code && this.codeYaml) {
       this.setState({'code': JSON.stringify(YAML.safeLoad(this.codeYaml), null, ' ')})
     }
   }
 
-    onYamlTabSelected(){
+  onYamlTabSelected() {
     if (!this.codeYaml && this.code) {
       this.setState({'codeYaml': YAML.safeDump(JSON.parse(this.code))})
     }
@@ -99,10 +99,11 @@ class ElasticStore {
 
   onDoQuery() {
     if (!this._es()) {
-      return false
+      this.setState({'last_error': "No connection to host"})
     }
-    let code = ""
-    let codeObject = {}
+    else {
+      let code = ""
+      let codeObject = {}
       if (this.code) {
         try {
           codeObject = JSON.parse(this.code)
@@ -111,9 +112,9 @@ class ElasticStore {
         } catch (e) {
           this.setState({'last_error': "Json parse error:\n " + e})
         }
-    }
-    else if (this.codeYaml){
-       try {
+      }
+      else if (this.codeYaml) {
+        try {
           codeObject = YAML.safeLoad(this.codeYaml)
           code = JSON.stringify(codeObject)
           this.setState({'last_error': null})
@@ -121,33 +122,34 @@ class ElasticStore {
           this.setState({'last_error': "Yaml parse error:\n " + e})
         }
       }
-    else {
+      else {
         this.setState({'last_error': 'Empty Query'})
         this.setState({'codeYaml': ''})
         this.setState({'code': ''})
       }
-    if (this.last_error === null) {
-      let query = codeObject.query
-      let validate_params = {'source': JSON.stringify({'query':query}), 'explain': true}
-      validate_params = this._populateIndexAndType(validate_params)
-      this._es().indices.validateQuery(validate_params).then((body) => {
-        if (body.valid) {
-          let search_params = {'body': code}
-          search_params = this._populateIndexAndType(search_params)
-          this._es().search(search_params).then((body) => {
+      if (this.last_error === null) {
+        let query = codeObject.query
+        let validate_params = {'source': JSON.stringify({'query': query}), 'explain': true}
+        validate_params = this._populateIndexAndType(validate_params)
+        this._es().indices.validateQuery(validate_params).then((body) => {
+          if (body.valid) {
+            let search_params = {'body': code}
+            search_params = this._populateIndexAndType(search_params)
+            this._es().search(search_params).then((body) => {
+              this.setState({'last_response': body})
+            }, (error) => {
+              this.setState({'last_error': JSON.stringify(error, null, ' ')})
+              this.setState({'last_response': {}})
+            })
+          }
+          else {
             this.setState({'last_response': body})
-          }, (error) => {
-            this.setState({'last_error': JSON.stringify(error, null, ' ')})
-            this.setState({'last_response': {}})
-          })
-        }
-        else {
-          this.setState({'last_response': body})
-          this.setState({'last_error': null})
-        }
-      }, (error) => {
-        this.setState({'last_error': JSON.stringify(error, null, ' ')})
-      })
+            this.setState({'last_error': null})
+          }
+        }, (error) => {
+          this.setState({'last_error': JSON.stringify(error, null, ' ')})
+        })
+      }
     }
   }
 
