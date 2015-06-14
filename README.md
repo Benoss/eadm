@@ -45,6 +45,10 @@ For dev: just clone, npm install, npm start. and for build. npm run build:produc
 - [ ] Import/save snippets as gist/file
 - [ ] Pre-loaded list of snippets
 
+## Stats Tab
+- [x] Basic Stats Info
+- [ ] Add charts
+
 ## Cluster Tab
 - [ ] Basic Cluster Info
 - [ ] List all index

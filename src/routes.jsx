@@ -7,6 +7,7 @@ import Home from './routes/Home';
 import StaticPage from './routes/StaticPage';
 import ClientConfig from './routes/ClientConfig';
 import Query from './routes/Query';
+import Cluster from './routes/Cluster';
 
 export default (
   <Route path="/" handler={App}>
@@ -16,6 +17,8 @@ export default (
       <Route name="/query/:resultTab" handler={Query}/>
       <DefaultRoute name="raw" handler={Query}/>
     </Route>
+    <Route name="stats" handler={Cluster}/>
+
     <Route name="config" handler={ClientConfig}/>
     <Route name="static" path="static/:name" handler={StaticPage}/>
   </Route>
