@@ -1,2 +1,10 @@
 import Alt from 'alt';
-export default new Alt();
+var alt = new Alt();
+
+if (NODE_ENV == 'development') {
+  // Alt debug toolbar https://github.com/goatslacker/alt-devtool
+  let chromeDebug = require('alt/utils/chromeDebug');
+  chromeDebug(alt)
+}
+
+export default alt;

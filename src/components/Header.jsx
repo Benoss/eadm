@@ -56,6 +56,7 @@ export default React.createClass({
         <boot.Nav>
           <nav.NavItemLink eventKey={1} to="home">Home</nav.NavItemLink>
           <nav.NavItemLink eventKey={2} to="query">Query</nav.NavItemLink>
+          <nav.NavItemLink eventKey={4} to="stats">Stats</nav.NavItemLink>
         </boot.Nav>
         <boot.Nav right>
           <boot.DropdownButton className={dropDownClass} eventKey={3} title={this.state.active_client || 'Config Cluster'}>

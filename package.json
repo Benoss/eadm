@@ -1,6 +1,6 @@
 {
   "name": "eadm",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "eadm Elastic Admin",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
     "build:production": "webpack --config ./webpack_config/webpack.production.js",
     "build": "npm run build:development",
     "start": "webpack-dev-server  --devtool eval --progress --colors --hot  --config ./webpack_config/webpack.hot.js",
-    "gh-page": "git checkout gh-pages && git rebase master && git push && git checkout master"
+    "gh-page": "git checkout gh-pages && git merge master && git push && git checkout master"
   },
   "keywords": [
     "webpack",
@@ -42,6 +42,7 @@
     "flat": "^1.6.0",
     "js-yaml": "^3.3.1",
     "lodash": "^3.9.3",
+    "numbro": "^1.2.2",
     "react": "^0.13.3",
     "react-ace-wrapper": "^1.0.0",
     "react-bootstrap": "^0.23.3",
